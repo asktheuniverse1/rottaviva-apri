@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Apri il tuo viaggio · Rottaviva</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f6f1e7; --testo:#2a2620; --tenue:#6b6458; --accento:#d9a441; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14120f; --testo:#f3ede2; --tenue:#a59d90; } }
+  body { margin:0; background:var(--bg); color:var(--testo); font:18px/1.45 -apple-system, system-ui, sans-serif; }
+  main { max-width:440px; margin:0 auto; padding:56px 20px; }
+  h1 { font-size:30px; line-height:1.15; margin:0 0 12px; }
+  p { color:var(--tenue); margin:0 0 16px; }
+  a.tasto { display:block; text-align:center; background:var(--accento); color:#1d1a14; font-weight:700;
+    font-size:20px; padding:18px; border-radius:16px; text-decoration:none; margin:28px 0 20px; }
+  .piccolo { font-size:15px; }
+  .errore { color:#b3261e; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Il tuo viaggio è pronto ✈️</h1>
+  <p>Tocca il tasto: si apre Rottaviva con il tuo viaggio. Se l'iPhone chiede «Aprire in Rottaviva?», tocca <b>Apri</b>, poi nell'app <b>«Usa questo viaggio»</b>.</p>
+  <a class="tasto" id="apri" href="#">Apri in Rottaviva</a>
+  <p class="piccolo">Non succede niente? Rottaviva deve essere installata sull'iPhone (dall'invito di TestFlight). Poi torna qui e tocca di nuovo il tasto.</p>
+  <p class="piccolo errore" id="errore" hidden>Questo link è incompleto: chiedi a Brian di rimandartelo.</p>
+</main>
+<script>
+  // ?v=<id del gist>/<versione>: la pagina non contiene dati, costruisce solo il link per l'app
+  var v = new URLSearchParams(location.search).get('v') || '';
+  var m = /^([0-9a-f]{20,40})\/([0-9a-f]{40})$/.exec(v);
+  var tasto = document.getElementById('apri');
+  if (m) {
+    var raw = 'https://gist.githubusercontent.com/asktheuniverse1/' + m[1] + '/raw/' + m[2] + '/viaggio.json';
+    tasto.href = 'rottaviva://apri?url=' + encodeURIComponent(raw);
+  } else {
+    tasto.hidden = true;
+    document.getElementById('errore').hidden = false;
+  }
+</script>
+</body>
+</html>
